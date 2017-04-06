@@ -1,0 +1,5 @@
+# python binary file
+*.pyc
+
+# database
+*.sqlite3
