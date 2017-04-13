@@ -1,16 +1,29 @@
-from django.shortcuts import render, HttpResponse
-from accounts.models import User
+from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
+from accounts.forms import LoginForm
 
 
 def home_page(request):
-    # print(request.GET)
-    # users = User.objects.filter(username='Frog').order_by("-id")
-    keyword = request.GET.get("keyword")
-    users = User.objects.all()
-    if keyword:
-        users = users.filter(username__icontains=keyword)
-        print(User.objects.filter(username__icontains=keyword).query)
-    return render(request, "home_page.html", {"users": users})
-    # return HttpResponse("Respons something")
+    form = LoginForm()
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(email=data.get("email"), password=data.get("password"))
+            if user:
+                login(request, user)
+            else:
+                print("sorry")
+    #
+    #         print("valid")
+    # # logic auth
+    #     else:
+    #         print("NOT VALID")
+    # # logic error
+    return render(request, "home_page.html", {"form": form})
 
-# Create your views here.
+
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("home"))

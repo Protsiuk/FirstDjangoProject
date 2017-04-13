@@ -1,34 +1,19 @@
-{% load staticfiles %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
-</head>
-<body>
-    <div>
-        <h3>Home page</h3>
-        <p>Don't give up!</p>
-        <img src="{% static 'img/relax.jpg' %}" width="320" height="320" alt=""><br>
-        <hr>
-        <from action="{% url 'home' %}" method="GET">
-            <input type="text" name="keyword">
-            <input type="submit" value="Search user">
-        </from>
-        <hr>
-        {% for user in users %}
-            {{ user.username }}<br>
-            {% if user.photo %}
-                <img src="{{ user.photo.url }}"  width="200" height="200" alt="">
-                <hr>
-            {% else %}
-                This user hes not avatar.
-                <hr>
-            {% endif %}
-        {% endfor %}
-    </div>
+{% block content %}
+    {% if request.user.is_authenticated %}
+        Hello, {{ request.user }}
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        Hello, {{ request.user }}
+        Yuo, are not logged. Please log in.
+    {% endif %}
 
-</body>
-</html>
+    <p>Login form:</p>
+    <form action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <input type="submit">
+    </form>
+{% endblock content %}
+
