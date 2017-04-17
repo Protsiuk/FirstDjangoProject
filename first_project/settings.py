@@ -40,6 +40,10 @@ INSTALLED_APPS = [
 
     # django apps
     'accounts',
+
+    # 3-d generation
+    # 'django.drfdocs',
+
 ]
 
 MIDDLEWARE = [
@@ -50,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'first_project.urls'
