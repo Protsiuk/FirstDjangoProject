@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # django apps
     'accounts',
+    'publications'
 
     # 3-d generation
     # 'django.drfdocs',

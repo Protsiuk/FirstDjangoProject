@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="{% url 'publications' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>>
+
+    <p>Publication:</p>
+    {% for publication in publications %}
+        {{ publication.title }}<br>
+        {{ publication.body }}<br>
+        {{ publication.author.last_name }}<br>
+        {{ publication.added }}<br>
+        <hr>
+
+    {% endfor %}
+{#    <form class="col s12" action="{% url 'login' %}" method="post">#}
+{#        {% csrf_token %}#}
+{#        {% for error in form.non_field_errors %}#}
+{#                <strong>{{ error|escape }}</strong>#}
+{#        {% endfor %}#}
+{% endblock content %}
