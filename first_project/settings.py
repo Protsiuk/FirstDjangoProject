@@ -37,13 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     # django apps
     'accounts',
-    'publications'
+    'publications',
+
 
     # 3-d generation
+    'redactor',
+    'solo'
     # 'django.drfdocs',
+    # 're'
 
 ]
 
@@ -137,3 +142,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+# django WYSIWYG editor settings
+# default
+# REDACTOR_OPTIONS = {'lang': 'en'}
+# REDACTOR_UPLOAD = 'uploads/'
+
+
+REDACTOR_OPTIONS = {'lang': 'en',
+                    'plugins': ['table'],
+                    'formatting':['p', 'blockquote']}
+REDACTOR_UPLOAD = 'uploads/'
+
+
+# form local_settings import *
+# try:
+#     from local_settings import

@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=255)),
                 ('body', models.TextField()),
                 ('image', models.FileField(upload_to=utils.get_file_path)),
-                ('added', models.DateField(auto_now_add=True)),
+                ('added', models.DateTimeField(auto_now_add=True)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

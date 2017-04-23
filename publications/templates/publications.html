@@ -1,24 +1,97 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+{% load custom_publication %}
+
 {% block content %}
-    <form action="{% url 'publications' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'publications' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <input type="submit">
     </form>>
-
-    <p>Publication:</p>
+    <p>Publications:</p>
+    <hr>
+    <hr>
     {% for publication in publications %}
         {{ publication.title }}<br>
-        {{ publication.body }}<br>
-        {{ publication.author.last_name }}<br>
-        {{ publication.added }}<br>
+        {{ '<h5>HELLO</h5>' | safe }}<br>
+        {{ publication.body | safe }}<br>
+{#        {{ publication.image.url }}<br>#}
+        {{ publication.author.first_name }}<br>
+{#        {{ publication.added }}<br>#}
+        {{ publication.added | naturaltime}}<br>
+        {{ publication.added | custom_datatime }}<br>
         <hr>
-
+        <hr>
     {% endfor %}
-{#    <form class="col s12" action="{% url 'login' %}" method="post">#}
-{#        {% csrf_token %}#}
-{#        {% for error in form.non_field_errors %}#}
-{#                <strong>{{ error|escape }}</strong>#}
-{#        {% endfor %}#}
+
+{#VARIANT 1#}
+{#    <div class="pagination">#}
+{#        <span class="step-links">#}
+{#            {% if publications.has_previous %}#}
+{#                <a href="page={{ publications.previous_page_number }}">previous</a>#}
+{#            {% endif %}#}
+{##}
+{#            <span class="current">#}
+{#                Page {{ publications.number }} of {{ publications.paginator.num_pages }}.#}
+{#            </span>#}
+{##}
+{#            {% if publications.has_next %}#}
+{#                <a href="?page={{ publications.next_page_number }}">next</a>#}
+{#            {% endif %}#}
+{#        </span>#}
+{#    </div>#}
+
+{#    VARIANT 2#}
+    <div class="pagination">
+        <span class="step-links">
+            {% if publications.has_previous %}
+                <a href="?page={{ publications.previous_page_number }}">←</a>
+            {% endif %}
+
+            {% for page_number in publications.paginator.page_range %}
+                {% if page_number == publications.number %}
+                    <span class="current"><b>{{ page_number }}</b></span>
+                {% else %}
+                    <a href="?page={{ page_number }}"> {{ page_number }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if publications.has_next %}
+                <a href="?page={{ publications.next_page_number }}">→</a>
+            {% endif %}
+        </span>
+    </div>
+
+        {#VARIANT 3#}
+{#    <div class="pagination top_center">#}
+{#        <span class="step-links">#}
+{#            {% if publications.has_previous %}#}
+{#                <a href="?page={{ publications.previous_page_number }}">#}
+{#                    ←</a>#}
+{#            {% endif %}#}
+{##}
+{#            {% for page_number in publications.paginator.page_range %}#}
+{#                {% if page_number == publications.number %}#}
+{#                    <span class="current"><b>{{ page_number }}</b></span>#}
+{#                {% else %}#}
+{#                    <a href="?page={{ page_number }}"> {{ page_number }}</a>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{##}
+{#            {% if publications.has_next %}#}
+{#                <a href="?page={{ publications.next_page_number }}">→</a>#}
+{#            {% endif %}#}
+{#        </span>#}
+{#    </div>#}
+
+{#   {% for page in p.page_range|p_filter %}#}
+{#   {% if page == '...' %}#}
+       {# ... #}
+{#   {% elif page == request.GET.page %}#}
+       {# current #}
+{#   {% else %}#}
+       {# other_page #}
+{#    {% endfor %}#}
+
 {% endblock content %}

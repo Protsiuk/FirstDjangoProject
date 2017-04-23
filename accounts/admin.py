@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
-from accounts.models import User
+
+from accounts.models import User, WebsiteSettings
+
+from solo.admin import SingletonModelAdmin
 
 
 class CustomUserAdmin(UserAdmin):
@@ -20,6 +23,8 @@ class CustomUserAdmin(UserAdmin):
 
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(WebsiteSettings, SingletonModelAdmin)
+
 
 
 # class CustomUserAdmin(UserAdmin):

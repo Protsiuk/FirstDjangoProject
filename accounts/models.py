@@ -16,6 +16,12 @@ class User(AbstractUser):
     class Meta:
         swappable = "AUTH_USER_MODEL"
 
+
+class WebsiteSettings(models.Model):
+    title = models.CharField(max_length=255)
+
+
+
 # # Create your models here.
 # class Member (models.Model):
 #     username = models.CharField(max_length= 255)

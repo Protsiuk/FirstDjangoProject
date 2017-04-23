@@ -22,8 +22,11 @@ from publications.views import publications
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^redactor/', include('redactor.urls')),
+
 
     url(r'^$', home_page, name='home'),
+
     url(r'accounts/', include('accounts.urls')),
     url(r'publications/', include('publications.urls')),
 
