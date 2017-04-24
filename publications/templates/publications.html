@@ -3,6 +3,7 @@
 {% load humanize %}
 {% load custom_publication %}
 
+
 {% block content %}
     <form action="{% url 'publications' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -18,7 +19,6 @@
         {{ publication.body | safe }}<br>
 {#        {{ publication.image.url }}<br>#}
         {{ publication.author.first_name }}<br>
-{#        {{ publication.added }}<br>#}
         {{ publication.added | naturaltime}}<br>
         {{ publication.added | custom_datatime }}<br>
         <hr>
@@ -26,49 +26,28 @@
     {% endfor %}
 
 {#VARIANT 1#}
-{#    <div class="pagination">#}
-{#        <span class="step-links">#}
-{#            {% if publications.has_previous %}#}
-{#                <a href="page={{ publications.previous_page_number }}">previous</a>#}
-{#            {% endif %}#}
-{##}
-{#            <span class="current">#}
-{#                Page {{ publications.number }} of {{ publications.paginator.num_pages }}.#}
-{#            </span>#}
-{##}
-{#            {% if publications.has_next %}#}
-{#                <a href="?page={{ publications.next_page_number }}">next</a>#}
-{#            {% endif %}#}
-{#        </span>#}
-{#    </div>#}
-
-{#    VARIANT 2#}
     <div class="pagination">
         <span class="step-links">
             {% if publications.has_previous %}
-                <a href="?page={{ publications.previous_page_number }}">←</a>
+                <a href="page={{ publications.previous_page_number }}"><-</a>
             {% endif %}
 
-            {% for page_number in publications.paginator.page_range %}
-                {% if page_number == publications.number %}
-                    <span class="current"><b>{{ page_number }}</b></span>
-                {% else %}
-                    <a href="?page={{ page_number }}"> {{ page_number }}</a>
-                {% endif %}
-            {% endfor %}
+            <span class="current">
+                Page {{ publications.number }} of {{ publications.paginator.num_pages }}.
+            </span>
 
             {% if publications.has_next %}
-                <a href="?page={{ publications.next_page_number }}">→</a>
+                <a href="?page={{ publications.next_page_number }}">-></a>
             {% endif %}
         </span>
     </div>
 
-        {#VARIANT 3#}
-{#    <div class="pagination top_center">#}
+
+{#    VARIANT 2#}
+{#    <div class="pagination">#}
 {#        <span class="step-links">#}
 {#            {% if publications.has_previous %}#}
-{#                <a href="?page={{ publications.previous_page_number }}">#}
-{#                    ←</a>#}
+{#                <a href="?page={{ publications.previous_page_number }}">←</a>#}
 {#            {% endif %}#}
 {##}
 {#            {% for page_number in publications.paginator.page_range %}#}
@@ -85,13 +64,31 @@
 {#        </span>#}
 {#    </div>#}
 
-{#   {% for page in p.page_range|p_filter %}#}
-{#   {% if page == '...' %}#}
-       {# ... #}
-{#   {% elif page == request.GET.page %}#}
-       {# current #}
-{#   {% else %}#}
-       {# other_page #}
-{#    {% endfor %}#}
+        {#VARIANT 3#}
+{#    <div class="pagination">#}
+{#        <a class="step-links">#}
+{#            {% if publications.has_previous %}#}
+{#                <li>#}
+{#                    <a href="?page={{ publications.previous_page_number }}">←</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% for page_number in num_pages %}#}
+{#                {% if page_number != "..." %}#}
+{#                    <li>#}
+{#                        <a href="?page={{ num_pages }}">... </a>#}
+{#                    </li>#}
+{#                {% else %}#}
+{#                    <li>#}
+{#                        <a>{{ num_pages }}</a>#}
+{#                    </li>#}
+{#                {% endif %}>#}
+{#            {% endfor %}#}
+{#            {% if publications.has_previous %}#}
+{#                <li>#}
+{#                    <a href="?page={{ publications.next_page_number }}">-></a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#        </a>#}
+{#    </div>#}
 
 {% endblock content %}
