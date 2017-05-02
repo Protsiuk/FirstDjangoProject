@@ -21,10 +21,10 @@ class CustomUserAdmin(UserAdmin):
     )
     list_filter = ('is_staff', 'is_superuser', 'is_active')
 
+
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(WebsiteSettings, SingletonModelAdmin)
-
 
 
 # class CustomUserAdmin(UserAdmin):

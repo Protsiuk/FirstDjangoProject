@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    Single publication<br>
+    {{ publication.title }}<br>
+    Likes:{{ publication.get_likes_count }}<br>
+    <a href="{% url 'like_single_publication' publication_id=publication.id %}">LIKE</a>
+{% endblock content %}

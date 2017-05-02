@@ -21,7 +21,7 @@ class WebsiteSettings(models.Model):
     title = models.CharField(max_length=255)
     favicon = models.ImageField(width_field=30, height_field=30)
     description = models.CharField(max_length=255)
-    about = models.TextField(max_length=511)
+    about = models.TextField(max_length=510)
 
 
 # # Create your models here.

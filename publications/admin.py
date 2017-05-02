@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 
-from publications.models import Publication
+from publications.models import Publication, PublicationLike
 from redactor.widgets import RedactorEditor
 
 
@@ -16,6 +16,6 @@ class PublicationAdminForm(forms.ModelForm):
 class PublicationAdmin(admin.ModelAdmin):
     form = PublicationAdminForm
 
-admin.site.register(Publication, PublicationAdmin)
-
 # Register your models here.
+admin.site.register(PublicationLike)
+admin.site.register(Publication, PublicationAdmin)
