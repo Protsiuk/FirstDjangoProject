@@ -64,12 +64,23 @@ def like_single_publication(request, publication_id):
         return HttpResponseRedirect(reverse("login"))
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def publications_as_json(request, publication_id):
-    publication = get_object_or_404(Publication, pk=publication_id)
-    publications = Publication.objects.all()
-    serializer = PublicationSerializer(publications, many=True)
-    return Response(serializer.data)
+    """
+    get:
+    return comment to GET Requests
+
+    post:
+    return comment to POST Requests
+    """
+    if request.method == "GET":
+        publication = get_object_or_404(Publication, pk=publication_id)
+        serializer = PublicationSerializer(publication)
+        return Response(serializer.data)
+    else:
+        return Response({"method": "POST"})
+
+        # publications = Publication.objects.all()
 
 #!!! def publications_as_json(request, publication_id):
 #     publication = get_object_or_404(Publication, pk=publication_id)

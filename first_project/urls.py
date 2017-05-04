@@ -17,12 +17,14 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from accounts.views import home_page, sign_out, sign_in
-from publications.views import publications
+from accounts.views import home_page
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^redactor/', include('redactor.urls')),
+    # url(r'^docs/', include('rest_framework_docs.urls')),
+    url(r'^docs/', include_docs_urls(title='My API title')),
 
 
     url(r'^$', home_page, name='home'),
