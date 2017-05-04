@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
@@ -17,6 +18,9 @@ def publications(request):
                                        image=data.get("image"),
                                        author=request.user)
     publications = Publication.objects.all()
+
+    print("publications are ")
+
     # pagination of pages
     paginator = Paginator(publications, 5)
     page = request.GET.get('page', 1)
@@ -55,3 +59,20 @@ def like_single_publication(request, publication_id):
     # def sign_out(request):
     #     logout(request)
     #     return HttpResponseRedirect(reverse("home"))
+
+
+def publications_as_json(request, publication_id):
+    publication = get_object_or_404(Publication, pk=publication_id)
+    return JsonResponse({"title": publication.title,
+                         "body": publication.body,
+                         "author": publication.author.first_name})
+
+
+#!!! def publications_as_json(request, publication_id):
+#     publication = get_object_or_404(Publication, pk=publication_id)
+#     if publication_id <= publications():
+#         return JsonResponse({"title": publication.title,
+#                          "body": publication.body,
+#                          "author": publication.author.first_name})
+#     else:
+#         return HttpResponse({"ERROR sorry, we can not fine this publications "})

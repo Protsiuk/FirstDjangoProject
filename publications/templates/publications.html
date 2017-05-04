@@ -15,10 +15,10 @@
     <hr>
     {% for publication in publications %}
         <a href="{% url 'single_publication' publication_id=publication.id %}">{{ publication.title }}</a><br>
-        {{ publication.body | safe }}<br>
+        {{ publication.body | safe }} - it is Body of publications<br>
         {{ '<h5>HELLO</h5>' | safe }}<br>
         {#        {{ publication.image.url }}<br>#}
-        {{ publication.author.first_name }}<br>
+        This is the publication created was {{ publication.author.first_name }}<br>
         {{ publication.added | naturaltime}}<br>
         {{ publication.added | custom_datatime }}<br>
         <hr>
