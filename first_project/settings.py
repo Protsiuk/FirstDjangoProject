@@ -46,8 +46,8 @@ INSTALLED_APPS = [
 
     # 3-d generation
     'redactor',
-    'solo'
-
+    'solo',
+    'rest_framework',
     # 'django.drfdocs',
     # 're'
 

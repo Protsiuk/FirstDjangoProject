@@ -1,11 +1,18 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from django.http import JsonResponse
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
+
 from publications.models import Publication, PublicationLike
 from publications.forms import PublicationForm
+from publications.serializers import PublicationSerializer
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from utils import gen_page_list
+
 
 def publications(request):
     form = PublicationForm()
@@ -37,6 +44,7 @@ def publications(request):
                                                  "form": form,
                                                  "page_nums": page_nums})
 
+
 def single_publication(request, publication_id):
     publication = get_object_or_404(Publication, pk=publication_id)
 
@@ -55,18 +63,13 @@ def like_single_publication(request, publication_id):
     else:
         return HttpResponseRedirect(reverse("login"))
 
-    # @login_required(login_url="/login/")
-    # def sign_out(request):
-    #     logout(request)
-    #     return HttpResponseRedirect(reverse("home"))
 
-
+@api_view(['GET'])
 def publications_as_json(request, publication_id):
     publication = get_object_or_404(Publication, pk=publication_id)
-    return JsonResponse({"title": publication.title,
-                         "body": publication.body,
-                         "author": publication.author.first_name})
-
+    publications = Publication.objects.all()
+    serializer = PublicationSerializer(publications, many=True)
+    return Response(serializer.data)
 
 #!!! def publications_as_json(request, publication_id):
 #     publication = get_object_or_404(Publication, pk=publication_id)
