@@ -22,3 +22,10 @@ class Publication(models.Model):
 class PublicationLike (models.Model):
     publication = models.ForeignKey(Publication)
     user = models.ForeignKey(User)
+
+
+# class PublicationComment (models.Model):
+#     publication = models.ForeignKey(Publication)
+#     user = models.ForeignKey(User)
+#     body = models.TextField()
+#     added = models.DateTimeField(auto_now_add=True)

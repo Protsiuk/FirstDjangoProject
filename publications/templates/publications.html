@@ -32,9 +32,17 @@
                 <a href="page={{ publications.previous_page_number }}"><-</a>
             {% endif %}
 
-            <span class="current">
-                Page {{ publications.number }} of {{ publications.paginator.num_pages }}.
-            </span>
+            {% for page_num in page_nums %}
+                {%  if  page_num == '...' %}
+                    {{ page_num }}
+                {% else %}
+                    <a href="?page={{ page_num }}">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
+
+{#            <span class="current">#}
+{#                Page {{ publications.number }} of {{ publications.paginator.num_pages }}.#}
+{#            </span>#}
 
             {% if publications.has_next %}
                 <a href="?page={{ publications.next_page_number }}">-></a>

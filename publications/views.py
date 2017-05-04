@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 from publications.models import Publication, PublicationLike
 from publications.forms import PublicationForm
-
+from utils import gen_page_list
 
 def publications(request):
     form = PublicationForm()
@@ -19,7 +19,7 @@ def publications(request):
     publications = Publication.objects.all()
     # pagination of pages
     paginator = Paginator(publications, 5)
-    page = request.GET.get('page')
+    page = request.GET.get('page', 1)
     try:
         publications = paginator.page(page)
     except PageNotAnInteger:
@@ -28,9 +28,10 @@ def publications(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         publications = paginator.page(paginator.num_pages)
+    page_nums = gen_page_list(int(page), paginator.num_pages)
     return render(request, "publications.html", {"publications": publications,
-                                                 "form": form})
-
+                                                 "form": form,
+                                                 "page_nums": page_nums})
 
 def single_publication(request, publication_id):
     publication = get_object_or_404(Publication, pk=publication_id)

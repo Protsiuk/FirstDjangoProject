@@ -5,4 +5,6 @@
     {{ publication.title }}<br>
     Likes:{{ publication.get_likes_count }}<br>
     <a href="{% url 'like_single_publication' publication_id=publication.id %}">LIKE</a>
+    <hr>
+    <b>Comment to {{ publication.title }}:</b>
 {% endblock content %}
