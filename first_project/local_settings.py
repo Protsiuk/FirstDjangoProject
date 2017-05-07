@@ -1,2 +1,4 @@
-# from wini.settings import INSTALLED_APPS
-# INSTALLED_APPS +=[]
+
+DEBUG = True
+
+# ALLOWED_HOSTS = ["project.com"]

@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.http import Http404
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
 
-from publications.models import Publication, PublicationLike
-from publications.forms import PublicationForm
-from publications.serializers import PublicationSerializer
+from publications.models import Publication, PublicationLike, PublicationComment
+from publications.forms import PublicationForm, PublicationCommentForm
+from publications.serializers import PublicationSerializer, CreatePublicationSerializer
 
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -26,7 +28,7 @@ def publications(request):
                                        author=request.user)
     publications = Publication.objects.all()
 
-    print("publications are ")
+    # print("publications are ")
 
     # pagination of pages
     paginator = Paginator(publications, 5)
@@ -47,8 +49,16 @@ def publications(request):
 
 def single_publication(request, publication_id):
     publication = get_object_or_404(Publication, pk=publication_id)
-
-    return render(request, "single_publication.html", {"publication": publication})
+    form = PublicationCommentForm()
+    if request.method == "POST":
+        form = PublicationCommentForm(request.POST)
+        if form.is_valid():
+            PublicationComment.objects.create(publication=publication,
+                                              user=request.user,
+                                              text=form.cleaned_data['text'])
+            return HttpResponseRedirect(reverse("single_publication", kwargs={"publication_id": publication_id}))
+    return render(request, "single_publication.html", {"publication": publication,
+                                                       "form": form})
     # publication = Publication.objects.get(pk=publication_id)
 
 
@@ -64,23 +74,23 @@ def like_single_publication(request, publication_id):
         return HttpResponseRedirect(reverse("login"))
 
 
-@api_view(['GET', 'POST'])
-def publications_as_json(request, publication_id):
-    """
-    get:
-    return comment to GET Requests
+# @api_view(['GET', 'POST'])
+# def publications_as_json(request, publication_id):
+#     """
+#     get:
+#     return JSON data of requests publication
+#
+#     post:
+#     return comment to POST Requests error
+#     """
+#     if request.method == "GET":
+#         publication = get_object_or_404(Publication, pk=publication_id)
+#         serializer = PublicationSerializer(publication)
+#         return Response(serializer.data)
+#     else:
+#         return Response({"method": "POST"})
 
-    post:
-    return comment to POST Requests
-    """
-    if request.method == "GET":
-        publication = get_object_or_404(Publication, pk=publication_id)
-        serializer = PublicationSerializer(publication)
-        return Response(serializer.data)
-    else:
-        return Response({"method": "POST"})
 
-        # publications = Publication.objects.all()
 
 #!!! def publications_as_json(request, publication_id):
 #     publication = get_object_or_404(Publication, pk=publication_id)
@@ -90,3 +100,33 @@ def publications_as_json(request, publication_id):
 #                          "author": publication.author.first_name})
 #     else:
 #         return HttpResponse({"ERROR sorry, we can not fine this publications "})
+
+class GetSinglePublicationView(APIView):
+    serializer_class = PublicationSerializer
+
+    def get_object(self, publication_id):
+        try:
+            return Publication.objects.get(pk=publication_id)
+        except Publication.DoesNotExist:
+            raise Http404
+
+    def get(self, request, publication_id):
+        publication = self.get_object(publication_id)
+        return Response(self.serializer_class(publication).data)
+
+    def delete(self, request, publication_id):
+        publication = self.get_object(publication_id)
+        publication.delete()
+        return Response({"success": True})
+
+
+class CreatePublicationView(APIView):
+    serializer_class = CreatePublicationSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(request.data)
+        if serializer.is_valid():
+            print(serializer.validated_data)
+            return Response({"asf": "rrr"})
+        else:
+            return Response(serializer.errors)

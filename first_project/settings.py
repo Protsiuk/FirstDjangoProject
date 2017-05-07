@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'k$&8^ky+gxta7#w&tf3(mui_4-(m&v(t=!zd6*iah7y&weo7uf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'solo',
     'rest_framework',
     'rest_framework_docs',
-    # 'django.drfdocs',
+    #
     # 're'
 
 ]
@@ -156,7 +156,7 @@ REDACTOR_OPTIONS = {'lang': 'en',
                     'formatting':['p', 'blockquote']}
 REDACTOR_UPLOAD = 'uploads/'
 
-
-# form local_settings import *
-# try:
-#     from local_settings import
+try:
+    from .local_settings import *
+except ImportError:
+    pass

@@ -24,8 +24,16 @@ class PublicationLike (models.Model):
     user = models.ForeignKey(User)
 
 
-# class PublicationComment (models.Model):
-#     publication = models.ForeignKey(Publication)
-#     user = models.ForeignKey(User)
-#     body = models.TextField()
-#     added = models.DateTimeField(auto_now_add=True)
+class PublicationComment (models.Model):
+    publication = models.ForeignKey(Publication, related_name="comments")
+    user = models.ForeignKey(User)
+    text = models.TextField()
+    added = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.text[:50]
+
+# variant recieved comment
+#     def get_comments(self):
+#         return PublicationComment.objects.filter(publication=self).values()

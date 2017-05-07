@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    Single publication<br>
+    <b><h4>Single publication</h4></b><br>
     {{ publication.title }}<br>
     Likes:{{ publication.get_likes_count }}<br>
     <a href="{% url 'like_single_publication' publication_id=publication.id %}">LIKE</a>
     <hr>
-    <b>Comment to {{ publication.title }}:</b>
+    <b>Comment to {{ publication.title }}:</b><br>
+    {% for comment in publication.comments.all %}
+        <img src="{{ user.photo.url }}" width="30" height="30">
+        {{ comment.user.get_full_name }}{{ comment.added }} <br>
+        {{ comment.text }}<br>
+    {% endfor %}
+    <hr>
+    <form action="{% url 'single_publication' publication_id=publication.id %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
 {% endblock content %}

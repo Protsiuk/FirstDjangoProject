@@ -4,7 +4,7 @@
 # IDE files
 .idea
 
-# Virtual enviroment
+# Virtual environment
 ENV
 
 # database
@@ -12,9 +12,8 @@ ENV
 
 # media files
 media
-__pycache__/
-accounts/__pycache__/
-accounts/migrations/__pycache__/
-first_project/__pycache__/
-publications/__pycache__/
-publications/migrations/__pycache__/
+
+# Local environment
+local_settings.py
+
+
