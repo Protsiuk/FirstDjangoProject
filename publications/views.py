@@ -12,6 +12,7 @@ from publications.serializers import PublicationSerializer, CreatePublicationSer
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from utils import gen_page_list
 
@@ -101,8 +102,10 @@ def like_single_publication(request, publication_id):
 #     else:
 #         return HttpResponse({"ERROR sorry, we can not fine this publications "})
 
+
 class GetSinglePublicationView(APIView):
     serializer_class = PublicationSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_object(self, publication_id):
         try:

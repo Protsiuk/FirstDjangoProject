@@ -48,9 +48,8 @@ INSTALLED_APPS = [
     'redactor',
     'solo',
     'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_docs',
-    #
-    # 're'
 
 ]
 
@@ -145,15 +144,24 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'accounts.User'
 
+
+# REST FRAMEWORK
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 # django WYSIWYG editor settings
 # default
 # REDACTOR_OPTIONS = {'lang': 'en'}
 # REDACTOR_UPLOAD = 'uploads/'
 
-
 REDACTOR_OPTIONS = {'lang': 'en',
                     'plugins': ['table'],
-                    'formatting':['p', 'blockquote']}
+                    'formatting': ['p', 'blockquote']}
 REDACTOR_UPLOAD = 'uploads/'
 
 try:

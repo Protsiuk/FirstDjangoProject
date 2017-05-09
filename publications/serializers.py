@@ -18,7 +18,7 @@ class PublicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Publication
-        fields = ("title", "body", "author")
+        fields = ("title", "body", "author", "hello")
         # fields = ("__all__") for all fiels
 
 
